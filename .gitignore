@@ -13,4 +13,4 @@ scripts/vsphere/tkg.key
 kind-kubeconfig
 kubeconfig
 *.pem
-# *.tfvars
+*.tfvars
