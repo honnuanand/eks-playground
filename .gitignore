@@ -1,0 +1,16 @@
+# terraform.tfvars
+terraform.tfstate
+*.backup
+.terraform
+*.swp
+kubeconfig
+*.tfplan
+*.lock.info
+*.log
+scripts/vsphere/tkg-config.yaml
+scripts/vsphere/tkg.pub
+scripts/vsphere/tkg.key
+kind-kubeconfig
+kubeconfig
+*.pem
+*.tfvars
