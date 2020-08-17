@@ -1,4 +1,7 @@
 # eks-playground
+After the eks cluster is provisioned extract the kubeconfig using 
+
+`$ aws eks --region us-west-2 update-kubeconfig --name eksquatro --kubeconfig kubeconfig`
 
 #### IF you want to create a DNS Zone and delegation run the create script in the `dns-zone` folder
 
