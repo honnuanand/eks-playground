@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-petclinic
+spec:
+  selector:
+    matchLabels:
+      app: spring-petclinic
+  template:
+    metadata:
+      labels:
+        app: spring-petclinic
+    spec:
+      containers:
+      - image: harbor.k8s.az.clue2solve.com/demo/spring-petclinic
+        name: spring-petclinic
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-petclinic-svc
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: spring-petclinic
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: spring-petclinic
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  tls:
+  - hosts:
+    - petclinic.svcs.aws.clue2solve.com
+    secretName: petclinic-tls-secret
+  rules:
+  - host: petclinic.svcs.aws.clue2solve.com
+    http:
+      paths:
+      - backend:
+          serviceName: spring-petclinic-svc
+          servicePort: 80
+        path: /
+
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: petclinic-cert
+  namespace: default
+spec:
+  dnsNames:
+  - petclinic.svcs.aws.clue2solve.com
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+  secretName: petclinic-tls-secret  
